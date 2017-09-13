@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   password = '';
   alerts = [];
 
-  constructor(private http: Http, private router:Router) {}
+  constructor(private http: Http, private router: Router) {}
 
   ngOnInit() {
     this.http.post('/api/hello', {}, {}).subscribe();
@@ -25,13 +25,11 @@ export class LoginComponent implements OnInit {
   login() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    headers.append('X-XSRF-TOKEN', '');
 
     this.http.post('/uaa/loginProcess', { id : this.id, password : this.password }, { headers: headers })
     .map(response => response.json())
     .subscribe(
       (response) => {
-        console.log(response);
         if (response.success) {
           this.router.navigateByUrl(response.targetUrl);
         } else {
