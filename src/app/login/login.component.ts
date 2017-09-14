@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Http, Headers} from '@angular/http';
-import {Router} from  '@angular/router';
+import {Router} from '@angular/router';
 
 /**
 *  This class represents the lazy loaded LoginComponent.
@@ -19,24 +19,44 @@ export class LoginComponent implements OnInit {
   constructor(private http: Http, private router: Router) {}
 
   ngOnInit() {
-    this.http.post('/api/hello', {}, {}).subscribe();
+
+    if (this.isNotExistsXsrfCookie()) {
+      this.http.post('/api/hello', {}, {}).subscribe();
+    }
+  }
+
+  private isNotExistsXsrfCookie() {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = 'XSRF-TOKEN=';
+    let c: string;
+
+    console.log(document.cookie);
+    for (let i = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      console.log(c);
+      if (c.indexOf(cookieName) === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   login() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    this.http.post('/uaa/loginProcess', { id : this.id, password : this.password }, { headers: headers })
-    .map(response => response.json())
-    .subscribe(
+    this.http.post('/uaa/loginProcess', {id: this.id, password: this.password}, {headers: headers})
+      .map(response => response.json())
+      .subscribe(
       (response) => {
         if (response.success) {
           this.router.navigateByUrl(response.targetUrl);
         } else {
-          this.alerts.push( { type: 'warning', msg: '로그인에 실패하였습니다.' } );
+          this.alerts.push({type: 'warning', msg: '로그인에 실패하였습니다.'});
         }
       },
-      (error) => { this.alerts.push( { type: 'danger', msg: error } ); },
+      (error) => {this.alerts.push({type: 'danger', msg: error});},
     );
   }
 
