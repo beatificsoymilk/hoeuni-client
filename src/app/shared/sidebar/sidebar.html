@@ -45,6 +45,20 @@
 			[routerLinkActive]="['router-link-active']" class="list-group-item">
 			<i class="fa fa-file-o"></i> &nbsp;BlankPage
 		</a>
+		<div class="nested-menu">
+			<a class="list-group-item" (click)="addExpandClass('metas')"> <span><i
+					class="fa fa-plus"></i> &nbsp; Metas</span>
+			</a>
+			<li class="nested" [ngClass]="{'expand' : showMenu === 'metas' }">
+				<ul class="submenu">
+					<li><a href=""><span>EAI</span></a></li>
+					<li><a [routerLink]="['metas']"
+							[routerLinkActive]="['router-link-active']" class="list-group-item">
+							<i class="fa fa-file-o"></i> EiGW
+					</a></li>
+				</ul>
+			</li>
+		</div>
 		<a class="list-group-item more-themes" href="http://www.strapui.com/">
 			More Themes </a>
 	</ul>

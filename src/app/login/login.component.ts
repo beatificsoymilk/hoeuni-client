@@ -12,8 +12,8 @@ import {Router} from '@angular/router';
 })
 
 export class LoginComponent implements OnInit {
-  id = '';
-  password = '';
+  id = 'beatific';
+  password = '1234567';
   alerts = [];
 
   constructor(private http: Http, private router: Router) {}
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         if (response.success) {
           this.router.navigateByUrl(response.targetUrl);
         } else {
-          this.alerts.push({type: 'warning', msg: '로그인에 실패하였습니다.'});
+          this.alerts.push({type: 'warning', msg: '濡쒓렇�씤�뿉 �떎�뙣�븯���뒿�땲�떎.'});
         }
       },
       (error) => {this.alerts.push({type: 'danger', msg: error});},
